@@ -6,7 +6,7 @@ import Sidebar from "./containers/sidebar.container";
 
 function App() {
   return (
-    <main className="flex font-space p-0 m-0 overflow-hidden bg-[#270057]">
+    <main className="flex font-space p-0 m-0 overflow-hidden">
       <Sidebar />
       <section className="flex flex-col-reverse w-full min-h-screen md:flex-row">
         <Chat />

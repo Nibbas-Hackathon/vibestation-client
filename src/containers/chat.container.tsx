@@ -59,8 +59,8 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col basis-full p-2 md:basis-1/3">
-      <div className="max-h-screen flex-1 gap-2 relative flex-col overflow-auto rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500">
+    <div className="flex flex-col basis-full p-2 md:basis-1/3 ">
+      <div className="max-h-screen flex-1 gap-2 relative flex-col overflow-auto rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
         {messages.map((message) => (
           <Message
             message={message.text}

@@ -33,7 +33,7 @@ const PlayerContainer = ({ title, album_cover, composer }: Props) => {
 
   return (
     <div className="flex flex-row  md:flex-col h-auto p-2   md:flex-1 md:h-screen relative">
-      <div className="w-full flex-1 gap-2 flex-row md:flex-col rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500">
+      <div className="w-full flex-1 gap-2 flex-row md:flex-col rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
         <div className="flex flex-row md:flex-col gap-5 justify-between md:justify-center w-full h-full">
           <div className="bg-transparent rounded-md flex gap-2  flex-col justify-center items-center">
             <img
