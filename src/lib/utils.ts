@@ -4,3 +4,8 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+
+export const MOOD_INTENSITY = ["low", "moderate", "high"]
+export const TEMPO = ["slow", "moderate", "fast"]
+export const GENRE = ["rock", "pop", "classical", "jazz", "ambient", "electronic", "hip-hop"]
