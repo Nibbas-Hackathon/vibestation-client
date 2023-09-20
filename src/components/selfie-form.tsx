@@ -9,15 +9,20 @@ import {
   SelectValue,
 } from "./select";
 import { GENRE, MOOD_INTENSITY, TEMPO } from "../lib/utils";
+import { useChatStore } from "../store";
 
 type Props = {};
 
 const SelfieForm = (props: Props) => {
+  const {setSelfieForm} = useChatStore()
+
+
+
   return (
     <div className="flex w-full justify-between gap-3">
       <div className="flex flex-col justify-between gap-2">
         <label htmlFor="moodIntensity">Intensity</label>
-        <Select>
+        <Select onValueChange={(value) => setSelfieForm("mood", value)}>
           <SelectTrigger className=" flex-1 bg-black text-white">
             <SelectValue placeholder="Intensity" />
           </SelectTrigger>
@@ -34,8 +39,8 @@ const SelfieForm = (props: Props) => {
         </Select>
       </div>
       <div className="flex flex-col flex-1 justify-between gap-2">
-        <label htmlFor="moodIntensity">Tempo</label>
-        <Select>
+        <label htmlFor="Tempo">Tempo</label>
+        <Select onValueChange={(value) => setSelfieForm("tempo", value)}>
           <SelectTrigger className=" bg-black text-white">
             <SelectValue placeholder="Tempo" />
           </SelectTrigger>
@@ -52,8 +57,8 @@ const SelfieForm = (props: Props) => {
         </Select>
       </div>
       <div className="flex flex-col flex-1 justify-between gap-2">
-        <label htmlFor="moodIntensity">Genre</label>
-        <Select>
+        <label htmlFor="Genre">Genre</label>
+        <Select onValueChange={(value) => setSelfieForm("genre", value)}>
           <SelectTrigger className=" bg-black text-white">
             <SelectValue placeholder="Genre" />
           </SelectTrigger>
