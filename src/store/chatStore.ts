@@ -6,6 +6,7 @@ interface Message {
   id: string;
   role: string;
   text: string;
+  type: string;
   song?: MusicRecord;
 }
 
@@ -13,13 +14,14 @@ interface ChatStore {
   selfieForm: Record<any, any>;
   setSelfieForm: (field: string, value: string) => void;
   messages: Message[];
-  setMessages: (message: string, role: string, song?: MusicRecord) => void;
+  setMessages: (message: string, role: string, type: string,song?: MusicRecord) => void;
 }
 
 const sampleConversation = [
   {
     id: uuidv4(),
     role: "assistant",
+    type: "text",
     text: "Hi!! Welcome to Vibestation! Provide a music prompt to get a vibe",
   },
 ];
@@ -30,7 +32,7 @@ export const useChatStore = create<ChatStore>((set) => ({
   setSelfieForm: (field, value) => {
     set((state) => ({ selfieForm: { ...state.selfieForm, [field]: value } }));
   },
-  setMessages: (message, role, song) => {
+  setMessages: (message, role, type, song) => {
     set((state) => ({
       messages: [
         ...state.messages,
@@ -38,6 +40,7 @@ export const useChatStore = create<ChatStore>((set) => ({
           id: uuidv4(),
           role,
           text: message,
+          type, 
           song,
         },
       ],

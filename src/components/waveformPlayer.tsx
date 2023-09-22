@@ -2,9 +2,10 @@ import { Pause, Play } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 import WaveSurfer from "wavesurfer.js";
+import { useAudioPlayerStore } from "../store";
 type WaveformProps = {
-  url: string
-}
+  url: string;
+};
 const formWaveSurferOptions = (ref: any) => ({
   container: ref,
   waveColor: "#853BE3",
@@ -15,7 +16,7 @@ const formWaveSurferOptions = (ref: any) => ({
   responsive: true,
   height: 80,
   normalize: true,
-  partialRender: true
+  partialRender: true,
 });
 
 export default function Waveform({ url }: WaveformProps) {
@@ -23,6 +24,7 @@ export default function Waveform({ url }: WaveformProps) {
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const { isAutoPlay } = useAudioPlayerStore();
 
   useEffect(() => {
     setPlay(false);
@@ -32,19 +34,27 @@ export default function Waveform({ url }: WaveformProps) {
 
     wavesurfer.current.load(url);
 
-    wavesurfer.current.on("ready", function() {
+    wavesurfer.current.on("ready", function () {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
+        console.log(isAutoPlay)
+        if (isAutoPlay) {
+          wavesurfer.current.play();
+          setPlay(true);
+        }else{
+          wavesurfer.current.stop();
+          setPlay(false)
+        }
       }
     });
 
-    wavesurfer.current.on("finish", function() {
-        if(wavesurfer.current){
-            wavesurfer.current.stop()
-            setPlay(false)
-        }
-    })
+    wavesurfer.current.on("finish", function () {
+      if (wavesurfer.current) {
+        wavesurfer.current.stop();
+        setPlay(false);
+      }
+    });
 
     return () => wavesurfer.current!.destroy();
   }, [url]);
@@ -68,7 +78,9 @@ export default function Waveform({ url }: WaveformProps) {
     <div className="w-full flex flex-col gap-5 h= justify-center items-center">
       <div id="waveform" className="w-full" ref={waveformRef} />
       <div className="controls">
-        <button onClick={handlePlayPause}>{!playing ? <Play/> : <Pause/>}</button>
+        <button onClick={handlePlayPause}>
+          {!playing ? <Play /> : <Pause />}
+        </button>
       </div>
     </div>
   );

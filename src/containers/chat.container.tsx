@@ -1,7 +1,7 @@
 import { useAudioPlayerStore, useChatStore } from "../store";
 import Message from "../components/message";
 import { Input } from "../components/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Camera, SendHorizontal } from "lucide-react";
 import {
   Dialog,
@@ -15,7 +15,7 @@ import CameraComponent from "../components/camera";
 import { Button } from "../components/button";
 import SelfieForm from "../components/selfie-form";
 import axios from "axios";
-import { dataURLtoBlob } from "../lib/utils";
+import { v4 as uuidv4 } from "uuid";
 
 const Chat = () => {
   const { messages, setMessages, selfieForm } = useChatStore();
@@ -27,81 +27,94 @@ const Chat = () => {
   });
   const [imageData, setImageData] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState<any>(null);
+  // const handleCapture = (imageSrc: string) => {
+  //   setImageData(imageSrc);
+  // };
 
-  const handleCapture = (imageSrc: string) => {
-    setImageData(imageSrc);
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    setUploadedImage(file);
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setImageUrl(e.target!.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleMessageInput = async () => {
     if (messageState.text.trim() !== "") {
+      let prompt = messageState.text;
+      setIsGenerating(true);
+      setMessages(messageState.text, "user", "text");
       setMessageState({
         text: "",
         isDisabled: true,
       });
-      setIsGenerating(true);
-      setMessages(messageState.text, "user");
       try {
         const response = await axios.get(
-          "http://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/song",
+          "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/song",
           {
             params: {
-              prompt: messageState.text,
+              prompt,
             },
           }
         );
-        const song = response.data;
+        const song = {
+          ...response.data,
+          title: prompt,
+          creator: "Echelon",
+        };
         setCurrentSong(song);
-        setMessages("Vibe Composed", "assistant");
-        setMessages("", "assistant", song);
+        setMessages("Vibe Composed", "assistant", "music", song);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setMessages("Sorry vibe check failed 😔", "assistant");
+        setMessages("Sorry vibe check failed 😔", "assistant", "text");
       } finally {
         setIsGenerating(false);
       }
     }
   };
 
-  const handleImageInput = async () => {
-    if (imageData) {
-      setIsModalOpen(false)
-      setIsGenerating(true);
-      const blob = dataURLtoBlob(imageData);
+  // const handleImageInput = async () => {
+  //   if (imageData) {
+  //     setIsModalOpen(false);
+  //     setIsGenerating(true);
+  //     try {
+  //       const response = await axios.post(
+  //         "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/detect_emotion",
+  //         {
+  //           data: {
+  //             mood: selfieForm.mood,
+  //             tempo: selfieForm.tempo,
+  //             genre: selfieForm.genre,
+  //             "uploaded-img": imageData,
+  //           },
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
 
-      try {
-        // Create a FormData object and append the image Blob
-        const formData = new FormData();
-        formData.append("uploaded-image", blob, "captured-image.png");
-
-        // Send the FormData to the server using Axios
-        const response = await axios.post(
-          "http://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/detect_emotion",
-          {
-            // Include the FormData as the request data
-            data: {
-              mood: selfieForm.mood,
-              tempo: selfieForm.tempo,
-              genre: selfieForm.genre,
-              ...formData,
-            },
-            headers: {
-              "Content-Type": "multipart/form-data", // Set the content type for file upload
-            },
-          }
-        );
-
-        const song = response.data;
-        setCurrentSong(song);
-        setMessages("Vibe Composed", "assistant");
-        setMessages("", "assistant", song);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setMessages("Sorry vibe check failed 😔", "assistant");
-      } finally {
-        setIsGenerating(false);
-      }
-    }
-  };
+  //       const song = {
+  //         ...response.data,
+  //         creator: "Echelon",
+  //       };
+  //       setCurrentSong(song);
+  //       setMessages("Vibe Composed", "assistant", "music", song);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //       setMessages("Sorry vibe check failed 😔", "assistant", "text");
+  //     } finally {
+  //       setIsGenerating(false);
+  //     }
+  //   }
+  // };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -118,9 +131,43 @@ const Chat = () => {
     }
   };
 
+  const handleSelfieMode = async () => {
+    if (!uploadedImage) {
+      alert("Please select a file first.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("uploaded-img", uploadedImage, `selfie.`);
+    formData.append("mood", selfieForm.mood);
+    formData.append("tempo", selfieForm.tempo);
+    formData.append("genre", selfieForm.genre);
+
+    for (var [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    setIsModalOpen(false);
+    setIsGenerating(true);
+    try {
+      const response = await axios.post(
+        "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/detect_emotion",
+        formData
+      );
+      const song = {
+        ...response.data,
+        creator: "Echelon",
+      };
+      setCurrentSong(song);
+      setMessages("Vibe Composed", "assistant", "music", song);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setMessages("Sorry vibe check failed 😔", "assistant", "text");
+    }
+  };
+
   return (
-    <div className="flex flex-col basis-full p-2 md:basis-1/3 ">
-      <div className="max-h-screen flex-1 gap-2 relative flex-col overflow-auto rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
+    <div className="flex h-screen flex-col basis-full p-2 md:basis-1/3 ">
+      <div className="max-h-screen md:h-screen flex-1 gap-2 relative flex-col overflow-auto rounded-md flex p-5 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
         {messages.map((message) => (
           <Message message={message} key={message.id} />
         ))}
@@ -129,7 +176,7 @@ const Chat = () => {
             <Message
               message={{
                 text: "Composing your song...typically it takes 2 minutes",
-                role: "assistant"
+                role: "assistant",
               }}
             />{" "}
             <span className="loader"></span>
@@ -157,24 +204,21 @@ const Chat = () => {
             >
               <SendHorizontal />
             </button>
-            <Dialog open={isModalOpen}>
-              <DialogTrigger>
-                <button
-                  onClick={() => {
-                    setIsModalOpen(!isModalOpen);
-                    setImageData(null);
-                  }}
-                  disabled={
-                    messageState.text.length > 0 ? true : false || isGenerating
-                  }
-                  className={`p-2 rounded-md ${
-                    messageState.text.length > 0
-                      ? "bg-transparent  text-gray-500 cursor-not-allowed"
-                      : "bg-indigo-500 text-white"
-                  }`}
-                >
-                  <Camera />
-                </button>
+            <Dialog
+              open={isModalOpen}
+              onOpenChange={() => setIsModalOpen(!isModalOpen)}
+            >
+              <DialogTrigger
+                onClick={() => {
+                  setIsModalOpen(!isModalOpen);
+                  setImageData(null);
+                }}
+                disabled={
+                  messageState.text.length > 0 ? true : false || isGenerating
+                }
+                className="p-2 rounded-md bg-indigo-500   cursor-not-allowed text-white"
+              >
+                <Camera />
               </DialogTrigger>
               <DialogContent className="h-auto bg-[#270057] text-white font-space">
                 <DialogHeader>
@@ -184,7 +228,7 @@ const Chat = () => {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4 justify-center items-center">
-                  {imageData ? (
+                  {/* {imageData && (
                     <div className="flex flex-col gap-5">
                       <img
                         src={imageData}
@@ -199,8 +243,35 @@ const Chat = () => {
                         Generate
                       </Button>
                     </div>
+                  )} */}
+                  {uploadedImage ? (
+                    <div className="flex flex-col gap-5">
+                      <img
+                        src={imageUrl}
+                        className="rounded-md border-[5px] border-indigo-400"
+                        alt="Selfie"
+                      />
+                      <SelfieForm />
+                      <Button
+                        onClick={handleSelfieMode}
+                        className="bg-indigo-600 font-normal"
+                      >
+                        Generate
+                      </Button>
+                    </div>
                   ) : (
-                    <CameraComponent onCapture={handleCapture} />
+                    <div className="flex flex-col gap-3">
+                      {/* <CameraComponent onCapture={handleCapture} />
+                      <hr /> */}
+                      <input type="file" onChange={handleFileChange} />
+
+                      {/* <Button
+                        className="bg-indigo-900"
+                        onChange={handleFileChange}
+                      >
+                        Upload a Selfie
+                      </Button> */}
+                    </div>
                   )}
                 </div>
               </DialogContent>

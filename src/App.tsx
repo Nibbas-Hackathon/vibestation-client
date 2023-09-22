@@ -3,11 +3,28 @@ import "./App.css";
 import Chat from "./containers/chat.container";
 import PlayerContainer from "./containers/player.container";
 import Sidebar from "./containers/sidebar.container";
-import { Button } from "./components/button";
-import { PanelRightOpen, PanelLeftOpen } from "lucide-react";
+import { PanelLeftOpen } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+} from "./components/dialog";
 
 function App() {
   const [sidebarOpen, setSideBarOpen] = useState(false);
+  const [welcomeDialogOpen, setWelcomeDialogOpen] = useState(false);
+
+  // useEffect(() => {
+  //   const openDialogTimeout = setTimeout(() => {
+  //     setWelcomeDialogOpen(true);
+  //   }, 1000);
+
+  //   return () => {
+  //     clearTimeout(openDialogTimeout);
+  //   };
+  // }, []);
 
   const handleSidebarOpen = () => {
     setSideBarOpen(!sidebarOpen);
@@ -31,6 +48,19 @@ function App() {
           <h1 className="text-2xl md:hidden text-white">Vibestation.ai</h1>
         </div>
       </section>
+      <Dialog
+        open={welcomeDialogOpen}
+        onOpenChange={() => setWelcomeDialogOpen(!welcomeDialogOpen)}
+      >
+        <DialogContent className="h-auto bg-[#270057] text-white font-space">
+          <DialogHeader>
+            <DialogTitle>Welcome to Vibestation!</DialogTitle>
+            <DialogDescription className="text-md text-slate-300">
+              Take a selfie to create a song your emotions
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }

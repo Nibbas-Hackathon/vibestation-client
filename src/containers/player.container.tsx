@@ -1,6 +1,7 @@
 import React from "react";
 import Waveform from "../components/waveformPlayer";
 import { useAudioPlayerStore } from "../store";
+import { truncateText } from "../lib/utils";
 
 const PlayerContainer = () => {
   const { currentSong } = useAudioPlayerStore();
@@ -30,7 +31,7 @@ const PlayerContainer = () => {
               alt="ai_album_cover"
             />
             <div className="justify-center flex flex-col items-center gap-3">
-              <h1 className="text-xl">Eclipse</h1>
+              <h1 className="text-xl">{currentSong.title.length > 0 ? truncateText(currentSong.title, 50) : ""}</h1>
               <small>Vibestation</small>
             </div>
           </div>

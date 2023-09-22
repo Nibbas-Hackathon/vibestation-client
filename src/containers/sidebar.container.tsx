@@ -6,7 +6,8 @@ import {
 } from "../components/hover-card";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/avatar";
 import { XCircle } from "lucide-react";
-import { Button } from "../components/button";
+import { Switch } from "../components/switch";
+import { useAudioPlayerStore } from "../store";
 
 type SidebarProps = {
   sidebarOpen: boolean;
@@ -14,11 +15,13 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
+  const { setIsAutoPlay, isAutoPlay } = useAudioPlayerStore();
+
   return (
     <div
       className={`z-10 text-white ${
         sidebarOpen ? "flex absolute -z-10 w-full" : "hidden"
-      }  p-5  md:flex  flex-col justify-between bg-zinc-800 min-h-screen`}
+      }  p-5  md:flex border-r border-slate-500/50  flex-col justify-between bg-zinc-800 min-h-screen`}
     >
       <div className="flex justify-end items-end md:hidden">
         <button onClick={handleClose}>
@@ -27,6 +30,14 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
       </div>
       <h1 className="text-2xl hidden md:block">Vibestation.ai</h1>
       <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-5">
+          <small>Autoplay:</small>
+          <Switch
+            checked={isAutoPlay}
+            onCheckedChange={(value) => setIsAutoPlay(value)}
+          />
+        </div>
+
         <p className="font-normal text-sm">
           entry for: <br />
           <a
@@ -101,6 +112,9 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
                   rel="noopener noreferrer"
                 >
                   GPT-3.5 Chat Completions
+                </a>
+                <a href="https://replicate.com/stability-ai/sdxl">
+                  stability-ai / sdxl
                 </a>
               </div>
             </HoverCardContent>

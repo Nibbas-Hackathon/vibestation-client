@@ -18,7 +18,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
 
   return (
     <div className='flex flex-col gap-3'>
-      <Webcam className='rounded-md border-[5px] border-slate-900'  audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+      <Webcam height={720} width={1280} className='rounded-md border-[5px] border-slate-900'  audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
       <Button onClick={capture} className="bg-indigo-600 font-normal">Capture</Button>
     </div>
   );
