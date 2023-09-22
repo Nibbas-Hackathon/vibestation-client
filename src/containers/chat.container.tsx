@@ -81,41 +81,6 @@ const Chat = () => {
     }
   };
 
-  // const handleImageInput = async () => {
-  //   if (imageData) {
-  //     setIsModalOpen(false);
-  //     setIsGenerating(true);
-  //     try {
-  //       const response = await axios.post(
-  //         "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/detect_emotion",
-  //         {
-  //           data: {
-  //             mood: selfieForm.mood,
-  //             tempo: selfieForm.tempo,
-  //             genre: selfieForm.genre,
-  //             "uploaded-img": imageData,
-  //           },
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-
-  //       const song = {
-  //         ...response.data,
-  //         creator: "Echelon",
-  //       };
-  //       setCurrentSong(song);
-  //       setMessages("Vibe Composed", "assistant", "music", song);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //       setMessages("Sorry vibe check failed 😔", "assistant", "text");
-  //     } finally {
-  //       setIsGenerating(false);
-  //     }
-  //   }
-  // };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     setMessageState({
@@ -228,22 +193,7 @@ const Chat = () => {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4 justify-center items-center">
-                  {/* {imageData && (
-                    <div className="flex flex-col gap-5">
-                      <img
-                        src={imageData}
-                        className="rounded-md border-[5px] border-indigo-400"
-                        alt="Selfie"
-                      />
-                      <SelfieForm />
-                      <Button
-                        onClick={handleImageInput}
-                        className="bg-indigo-600 font-normal"
-                      >
-                        Generate
-                      </Button>
-                    </div>
-                  )} */}
+                 
                   {uploadedImage ? (
                     <div className="flex flex-col gap-5">
                       <img
