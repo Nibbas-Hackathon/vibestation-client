@@ -11,11 +11,9 @@ import {
   DialogDescription,
 } from "../components/dialog";
 import { DialogHeader } from "../components/dialog";
-import CameraComponent from "../components/camera";
 import { Button } from "../components/button";
 import SelfieForm from "../components/selfie-form";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 
 const Chat = () => {
   const { messages, setMessages, selfieForm } = useChatStore();
@@ -25,14 +23,9 @@ const Chat = () => {
     text: "",
     isDisabled: true,
   });
-  const [imageData, setImageData] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState<any>(null);
-  // const handleCapture = (imageSrc: string) => {
-  //   setImageData(imageSrc);
-  // };
-
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     setUploadedImage(file);
@@ -102,15 +95,10 @@ const Chat = () => {
       return;
     }
     const formData = new FormData();
-    formData.append("uploaded-img", uploadedImage, `selfie.`);
+    formData.append("uploaded-img", uploadedImage, "selfie");
     formData.append("mood", selfieForm.mood);
     formData.append("tempo", selfieForm.tempo);
     formData.append("genre", selfieForm.genre);
-
-    for (var [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
     setIsModalOpen(false);
     setIsGenerating(true);
     try {
@@ -127,6 +115,8 @@ const Chat = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
       setMessages("Sorry vibe check failed 😔", "assistant", "text");
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -140,7 +130,7 @@ const Chat = () => {
           <div className="flex gap-5 items-center">
             <Message
               message={{
-                text: "Composing your song...typically it takes 5 minutes",
+                text: "Composing your song...typically it takes 2 minutes",
                 role: "assistant",
               }}
             />{" "}
@@ -176,7 +166,6 @@ const Chat = () => {
               <DialogTrigger
                 onClick={() => {
                   setIsModalOpen(!isModalOpen);
-                  setImageData(null);
                 }}
                 disabled={
                   messageState.text.length > 0 ? true : false || isGenerating
@@ -193,7 +182,6 @@ const Chat = () => {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4 justify-center items-center">
-                 
                   {uploadedImage ? (
                     <div className="flex flex-col gap-5">
                       <img
@@ -211,16 +199,7 @@ const Chat = () => {
                     </div>
                   ) : (
                     <div className="flex flex-col gap-3">
-                      {/* <CameraComponent onCapture={handleCapture} />
-                      <hr /> */}
                       <input type="file" onChange={handleFileChange} />
-
-                      {/* <Button
-                        className="bg-indigo-900"
-                        onChange={handleFileChange}
-                      >
-                        Upload a Selfie
-                      </Button> */}
                     </div>
                   )}
                 </div>
