@@ -140,7 +140,7 @@ const Chat = () => {
           <div className="flex gap-5 items-center">
             <Message
               message={{
-                text: "Composing your song...typically it takes 2 minutes",
+                text: "Composing your song...typically it takes 5 minutes",
                 role: "assistant",
               }}
             />{" "}
