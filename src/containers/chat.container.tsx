@@ -130,10 +130,10 @@ const Chat = () => {
           <div className="flex gap-5 items-center">
             <Message
               message={{
-                text: "Composing your song...typically it takes 2 minutes",
+                text: "Composing your song...typically it takes 5 minutes",
                 role: "assistant",
               }}
-            />{" "}
+            />
             <span className="loader"></span>
           </div>
         )}
@@ -167,10 +167,8 @@ const Chat = () => {
                 onClick={() => {
                   setIsModalOpen(!isModalOpen);
                 }}
-                disabled={
-                  messageState.text.length > 0 ? true : false || isGenerating
-                }
-                className="p-2 rounded-md bg-indigo-500   cursor-not-allowed text-white"
+                disabled={isGenerating}
+                className="p-2 rounded-md bg-indigo-500 text-white"
               >
                 <Camera />
               </DialogTrigger>
