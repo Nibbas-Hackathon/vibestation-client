@@ -1,5 +1,5 @@
 import { Camera } from "lucide-react";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
 type FileUploadProps = {

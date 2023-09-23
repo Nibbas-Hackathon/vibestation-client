@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -27,6 +27,10 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
   const { setMessages, selfieForm } = useChatStore();
   const { setCurrentSong } = useAudioPlayerStore();
 
+  useEffect(() => {
+    console.log(uploadedImage);
+  }, [uploadedImage]);
+
   const handleSelfieMode = async () => {
     if (!uploadedImage) {
       alert("Please select a file first.");
@@ -44,7 +48,12 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
     try {
       const response = await axiosInstance.post(
         "api/data/detect_emotion",
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       const song = {
         ...response.data,

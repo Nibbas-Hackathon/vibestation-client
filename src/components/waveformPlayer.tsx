@@ -92,7 +92,7 @@ export default function Waveform({ song }: WaveformProps) {
         </h1>
         <small className="text-xs md:text-md">Vibestation</small>
       </div>
-      <div id="waveform" className="hidden w-full md:block" ref={waveformRef} />
+      <div id="waveform" className="w-full" ref={waveformRef} />
       <div className="controls flex justify-between w-full">
         <div className="flex gap-2">
           <button>
