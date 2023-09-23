@@ -1,10 +1,20 @@
-import { Pause, Play } from "lucide-react";
+import {
+  Download,
+  Pause,
+  Play,
+  Volume,
+  Volume1,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import WaveSurfer from "wavesurfer.js";
 import { useAudioPlayerStore } from "../store";
+import { MusicRecord } from "../store/playerStore";
+import { truncateText } from "../lib/utils";
 type WaveformProps = {
-  url: string;
+  song: MusicRecord;
 };
 const formWaveSurferOptions = (ref: any) => ({
   container: ref,
@@ -19,7 +29,7 @@ const formWaveSurferOptions = (ref: any) => ({
   partialRender: true,
 });
 
-export default function Waveform({ url }: WaveformProps) {
+export default function Waveform({ song }: WaveformProps) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlay] = useState(false);
@@ -32,19 +42,19 @@ export default function Waveform({ url }: WaveformProps) {
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
 
-    wavesurfer.current.load(url);
+    wavesurfer.current.load(song.songUrl);
 
     wavesurfer.current.on("ready", function () {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
-        console.log(isAutoPlay)
+        console.log(isAutoPlay);
         if (isAutoPlay) {
           wavesurfer.current.play();
           setPlay(true);
-        }else{
+        } else {
           wavesurfer.current.stop();
-          setPlay(false)
+          setPlay(false);
         }
       }
     });
@@ -57,7 +67,7 @@ export default function Waveform({ url }: WaveformProps) {
     });
 
     return () => wavesurfer.current!.destroy();
-  }, [url]);
+  }, [song.songUrl]);
 
   const handlePlayPause = () => {
     setPlay(!playing);
@@ -76,10 +86,37 @@ export default function Waveform({ url }: WaveformProps) {
 
   return (
     <div className="w-full flex flex-col gap-5 h= justify-center items-center">
-      <div id="waveform" className="w-full" ref={waveformRef} />
-      <div className="controls">
-        <button onClick={handlePlayPause}>
+      <div className="justify-center flex flex-col items-center gap-3">
+        <h1 className="text-sm md:text-xl">
+          {song.title.length > 0 ? truncateText(song.title, 50) : ""}
+        </h1>
+        <small className="text-xs md:text-md">Vibestation</small>
+      </div>
+      <div id="waveform" className="hidden w-full md:block" ref={waveformRef} />
+      <div className="controls flex justify-between w-full">
+        <div className="flex gap-2">
+          <button>
+            <Volume2 />
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            className="w-[75px]"
+            value={volume}
+            onChange={onVolumeChange}
+          />
+        </div>
+
+        <button
+          onClick={handlePlayPause}
+          className="rounded-full hover:bg-indigo-500/50 p-3"
+        >
           {!playing ? <Play /> : <Pause />}
+        </button>
+        <button>
+          <Download />
         </button>
       </div>
     </div>
