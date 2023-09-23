@@ -29,6 +29,9 @@ const Chat = () => {
           params: {
             prompt,
           },
+          headers: {
+            "Content-Type": "application/json"
+          }
         });
         const song = {
           ...response.data,
@@ -71,7 +74,7 @@ const Chat = () => {
           <div className="flex gap-5 items-center">
             <Message
               message={{
-                text: "Composing your song...typically it takes 5 minutes",
+                text: "Composing your vibe...typically it takes 5 minutes",
                 role: "assistant",
               }}
             />
