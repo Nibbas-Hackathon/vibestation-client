@@ -1,5 +1,5 @@
 import { Pause, Play } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import WaveSurfer from "wavesurfer.js";
 import { useAudioPlayerStore } from "../store";

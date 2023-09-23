@@ -7,7 +7,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "./ui/select";
 import { GENRE, MOOD_INTENSITY, TEMPO } from "../lib/utils";
 import { useChatStore } from "../store";
 

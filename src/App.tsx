@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogHeader,
-} from "./components/dialog";
+} from "./components/ui/dialog";
 
 function App() {
   const [sidebarOpen, setSideBarOpen] = useState(false);

@@ -1,44 +1,19 @@
 import { useAudioPlayerStore, useChatStore } from "../store";
-import Message from "../components/message";
-import { Input } from "../components/input";
+import Message from "../components/ui/message";
+import { Input } from "../components/ui/input";
 import { useState } from "react";
-import { Camera, SendHorizontal } from "lucide-react";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "../components/dialog";
-import { DialogHeader } from "../components/dialog";
-import { Button } from "../components/button";
-import SelfieForm from "../components/selfie-form";
-import axios from "axios";
+import { SendHorizontal } from "lucide-react";
+import { axiosInstance } from "../lib/axios-instance";
+import Upload from "../components/upload";
 
 const Chat = () => {
-  const { messages, setMessages, selfieForm } = useChatStore();
+  const { messages, setMessages } = useChatStore();
   const { setCurrentSong } = useAudioPlayerStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageState, setMessageState] = useState({
     text: "",
     isDisabled: true,
   });
   const [isGenerating, setIsGenerating] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState<any>(null);
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-    setUploadedImage(file);
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        setImageUrl(e.target!.result);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleMessageInput = async () => {
     if (messageState.text.trim() !== "") {
@@ -50,14 +25,11 @@ const Chat = () => {
         isDisabled: true,
       });
       try {
-        const response = await axios.get(
-          "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/song",
-          {
-            params: {
-              prompt,
-            },
-          }
-        );
+        const response = await axiosInstance.get("/api/data/song", {
+          params: {
+            prompt,
+          },
+        });
         const song = {
           ...response.data,
           title: prompt,
@@ -86,37 +58,6 @@ const Chat = () => {
     if (e.key === "Enter" && !messageState.isDisabled) {
       e.preventDefault();
       handleMessageInput();
-    }
-  };
-
-  const handleSelfieMode = async () => {
-    if (!uploadedImage) {
-      alert("Please select a file first.");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("uploaded-img", uploadedImage, "selfie");
-    formData.append("mood", selfieForm.mood);
-    formData.append("tempo", selfieForm.tempo);
-    formData.append("genre", selfieForm.genre);
-    setIsModalOpen(false);
-    setIsGenerating(true);
-    try {
-      const response = await axios.post(
-        "https://ec2-43-204-212-96.ap-south-1.compute.amazonaws.com:53421/api/data/detect_emotion",
-        formData
-      );
-      const song = {
-        ...response.data,
-        creator: "Echelon",
-      };
-      setCurrentSong(song);
-      setMessages("Vibe Composed", "assistant", "music", song);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setMessages("Sorry vibe check failed 😔", "assistant", "text");
-    } finally {
-      setIsGenerating(false);
     }
   };
 
@@ -159,50 +100,10 @@ const Chat = () => {
             >
               <SendHorizontal />
             </button>
-            <Dialog
-              open={isModalOpen}
-              onOpenChange={() => setIsModalOpen(!isModalOpen)}
-            >
-              <DialogTrigger
-                onClick={() => {
-                  setIsModalOpen(!isModalOpen);
-                }}
-                disabled={isGenerating}
-                className="p-2 rounded-md bg-indigo-500 text-white"
-              >
-                <Camera />
-              </DialogTrigger>
-              <DialogContent className="h-auto bg-[#270057] text-white font-space">
-                <DialogHeader>
-                  <DialogTitle>Emote Mode</DialogTitle>
-                  <DialogDescription className="text-md text-slate-300">
-                    Take a selfie to create a song your emotions
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4 justify-center items-center">
-                  {uploadedImage ? (
-                    <div className="flex flex-col gap-5">
-                      <img
-                        src={imageUrl}
-                        className="rounded-md border-[5px] border-indigo-400"
-                        alt="Selfie"
-                      />
-                      <SelfieForm />
-                      <Button
-                        onClick={handleSelfieMode}
-                        className="bg-indigo-600 font-normal"
-                      >
-                        Generate
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-3">
-                      <input type="file" onChange={handleFileChange} />
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Upload
+              setIsGenerating={setIsGenerating}
+              isGenerating={isGenerating}
+            />
           </div>
         </div>
       </div>

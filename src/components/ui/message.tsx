@@ -1,6 +1,6 @@
 import React from "react";
-import { useAudioPlayerStore } from "../store";
-import { truncateText } from "../lib/utils";
+import { useAudioPlayerStore } from "../../store";
+import { truncateText } from "../../lib/utils";
 
 type MessageProps = {
   message: Record<any, any>;

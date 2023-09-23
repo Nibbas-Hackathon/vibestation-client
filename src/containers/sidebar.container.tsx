@@ -3,11 +3,12 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../components/hover-card";
-import { Avatar, AvatarImage, AvatarFallback } from "../components/avatar";
+} from "../components/ui/hover-card";
+import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { XCircle } from "lucide-react";
-import { Switch } from "../components/switch";
+import { Switch } from "../components/ui/switch";
 import { useAudioPlayerStore } from "../store";
+import logo from "../assets/logo.png";
 
 type SidebarProps = {
   sidebarOpen: boolean;
@@ -23,12 +24,16 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
         sidebarOpen ? "flex absolute -z-10 w-full" : "hidden"
       }  p-5  md:flex border-r border-slate-500/50  flex-col justify-between bg-zinc-800 min-h-screen`}
     >
-      <div className="flex justify-end items-end md:hidden">
+      <div className="flex justify-between items-center md:hidden">
+        <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
         <button onClick={handleClose}>
-          <XCircle />
+          <XCircle size="32px" />
         </button>
       </div>
-      <h1 className="text-2xl hidden md:block">Vibestation.ai</h1>
+      <div className="gap-2 hidden md:flex items-center">
+        <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
+        <h1 className="text-2xl">Vibestation.ai</h1>
+      </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-5">
           <small>Autoplay:</small>
