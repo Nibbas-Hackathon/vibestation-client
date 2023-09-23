@@ -86,8 +86,8 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
       <DialogContent className="h-auto border-none bg-[#270057] text-white font-space">
         <DialogHeader>
           <DialogTitle>Emote Mode</DialogTitle>
-          <DialogDescription className="text-md text-slate-300">
-            Take a selfie to create a song your emotions
+          <DialogDescription className="text-sm font-sans text-slate-300">
+            Upload a selfie to create a vibe based on your expression ✨
           </DialogDescription>
         </DialogHeader>
         <div className="flex w-full justify-center items-center gap-4 py-4">
