@@ -24,15 +24,21 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
         sidebarOpen ? "flex absolute -z-10 w-full" : "hidden"
       }  p-5  md:flex border-r border-slate-500/50  flex-col justify-between bg-zinc-800 min-h-screen`}
     >
-      <div className="flex justify-between items-center md:hidden">
-        <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
-        <button onClick={handleClose}>
-          <XCircle size="32px" />
-        </button>
-      </div>
-      <div className="gap-2 hidden md:flex items-center">
-        <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
-        <h1 className="text-2xl">Vibestation.ai</h1>
+      <div className="gap-5 flex flex-col items-start">
+        <div className="flex w-full justify-between items-center md:hidden">
+          <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
+          <button onClick={handleClose}>
+            <XCircle size="32px" />
+          </button>
+        </div>
+        <div className=" gap-2 hidden md:flex">
+          <img src={logo} alt="vibestation.ai" className="h-8 rounded-sm" />
+          <h1 className="text-2xl">Vibestation.ai</h1>
+        </div>
+        <div className="flex flex-col gap-2">
+          <a href="/">Home</a>
+          <a href="/radio">Radio</a>
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-5">

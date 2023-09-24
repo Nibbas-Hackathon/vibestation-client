@@ -9,7 +9,7 @@ import {
   DialogFooter,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import SelfieForm from "./selfie-form";
+import SelfieForm from "./emote-mode-form";
 import { useAudioPlayerStore, useChatStore } from "../store";
 import { axiosInstance } from "../lib/axios-instance";
 import { Camera } from "lucide-react";
@@ -26,10 +26,6 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setMessages, selfieForm } = useChatStore();
   const { setCurrentSong } = useAudioPlayerStore();
-
-  useEffect(() => {
-    console.log(uploadedImage);
-  }, [uploadedImage]);
 
   const handleSelfieMode = async () => {
     if (!uploadedImage) {
@@ -90,21 +86,15 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
             Upload a selfie to create a vibe based on your expression ✨
           </DialogDescription>
         </DialogHeader>
-        <div className="flex w-full justify-center items-center gap-4 py-4">
+        <div className="flex w-full justify-center md:justify-between items-center gap-4 py-4">
           {uploadedImage ? (
-            <div className="flex flex-col justify-center items-center gap-5">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-5">
               <img
                 src={imageUrl}
-                className="rounded-md border-[5px] h-[200px] w-[200px] border-indigo-400"
+                className="rounded-md object-cover border-[5px] h-[200px] w-[200px] border-indigo-400"
                 alt="Selfie"
               />
               <SelfieForm />
-              <Button
-                onClick={handleSelfieMode}
-                className="bg-indigo-600 w-full font-normal"
-              >
-                Generate
-              </Button>
             </div>
           ) : (
             <FileUpload
@@ -113,7 +103,7 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
             />
           )}
         </div>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button
             onClick={() => {
               setIsModalOpen(false);
@@ -124,6 +114,13 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
           >
             Cancel
           </Button>
+          {uploadedImage && <Button
+            onClick={handleSelfieMode}
+            className="bg-indigo-600 w-full font-normal"
+          >
+            Generate
+          </Button>}
+
         </DialogFooter>
       </DialogContent>
     </Dialog>

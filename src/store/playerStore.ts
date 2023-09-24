@@ -13,6 +13,8 @@ interface AudioPlayerState {
   setIsAutoPlay: (value: boolean) => void;
   currentSong: MusicRecord;
   setCurrentSong: (value: MusicRecord) => void;
+  currentRadioSong: MusicRecord | null;
+  setCurrentRadioSong: (value: MusicRecord) => void;
 }
 
 const initialSong: MusicRecord = {
@@ -34,10 +36,15 @@ export const useAudioPlayerStore = create<AudioPlayerState>()(
       setCurrentSong: (value: MusicRecord) => {
         set({ currentSong: value });
       },
+      currentRadioSong: null,
+      setCurrentRadioSong: (value: MusicRecord) => {
+        set({ currentRadioSong: value });
+      },
     }),
     {
       name: "player-store",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ isAutoPlay: state.isAutoPlay })    }
+      partialize: (state) => ({ isAutoPlay: state.isAutoPlay }),
+    }
   )
 );

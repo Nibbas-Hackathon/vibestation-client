@@ -62,3 +62,24 @@ body {
     -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
   }
 }
+
+.vertical-slider {
+  width: 20px;
+  height: 300px;
+  display: flex;
+  flex-direction: column-reverse; 
+}
+
+.slider-thumb {
+  width: 20px;
+  height: 20px;
+  appearance: none;
+  background-color: #3490dc;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider-thumb-min {
+  transform: translateY(100%);
+}

@@ -1,7 +1,6 @@
 import React from "react";
-import Waveform from "../components/waveformPlayer";
+import HomePlayer from "../components/home-player";
 import { useAudioPlayerStore } from "../store";
-import { truncateText } from "../lib/utils";
 
 const PlayerContainer = () => {
   const { currentSong } = useAudioPlayerStore();
@@ -31,7 +30,7 @@ const PlayerContainer = () => {
               alt="ai_album_cover"
             />
           </div>
-          {currentSong && <Waveform song={currentSong} />}
+          {currentSong && <HomePlayer song={currentSong} />}
         </div>
       </div>
     </div>

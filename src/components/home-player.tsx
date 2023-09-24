@@ -1,21 +1,14 @@
-import {
-  Download,
-  Pause,
-  Play,
-  Volume,
-  Volume1,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Download, Pause, Play, Volume2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
+import { MusicRecord, useAudioPlayerStore } from "../store/playerStore";
+import { downloadFile, truncateText } from "../lib/utils";
+import Waveform from "./ui/waveform";
 import WaveSurfer from "wavesurfer.js";
-import { useAudioPlayerStore } from "../store";
-import { MusicRecord } from "../store/playerStore";
-import { truncateText } from "../lib/utils";
+
 type WaveformProps = {
   song: MusicRecord;
 };
+
 const formWaveSurferOptions = (ref: any) => ({
   container: ref,
   waveColor: "#853BE3",
@@ -29,18 +22,19 @@ const formWaveSurferOptions = (ref: any) => ({
   partialRender: true,
 });
 
-export default function Waveform({ song }: WaveformProps) {
+export default function HomePlayer({ song }: WaveformProps) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.5);
+
   const { isAutoPlay } = useAudioPlayerStore();
 
   useEffect(() => {
     setPlay(false);
 
     const options = formWaveSurferOptions(waveformRef.current);
-    wavesurfer.current = WaveSurfer.create(options);
+    wavesurfer!.current = WaveSurfer.create(options);
 
     wavesurfer.current.load(song.songUrl);
 
@@ -48,7 +42,7 @@ export default function Waveform({ song }: WaveformProps) {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
-        console.log(isAutoPlay);
+
         if (isAutoPlay) {
           wavesurfer.current.play();
           setPlay(true);
@@ -92,30 +86,35 @@ export default function Waveform({ song }: WaveformProps) {
         </h1>
         <small className="text-xs md:text-md">Vibestation</small>
       </div>
-      <div id="waveform" className="w-full" ref={waveformRef} />
+      <Waveform waveformRef={waveformRef} />
       <div className="controls flex justify-between w-full">
-        <div className="flex gap-2">
+        <div className="flex text-white gap-2">
           <button>
             <Volume2 />
           </button>
           <input
             type="range"
-            min="0"
-            max="100"
-            step="1"
-            className="w-[75px]"
-            value={volume}
+            id="volume"
+            name="volume"
+            min="0.01"
+            className="w-1/2"
+            max="1"
+            step=".025"
             onChange={onVolumeChange}
-          />
+            defaultValue={volume}
+          />{" "}
         </div>
 
         <button
           onClick={handlePlayPause}
-          className="rounded-full hover:bg-indigo-500/50 p-3"
+          className="rounded-full text-white hover:bg-indigo-500/50 p-3"
         >
           {!playing ? <Play /> : <Pause />}
         </button>
-        <button>
+        <button
+          className="rounded-full text-white hover:bg-indigo-500/50 p-3"
+          onClick={() => downloadFile(song.songUrl, song.title)}
+        >
           <Download />
         </button>
       </div>
