@@ -10,14 +10,12 @@ type Props = {
 const SongCard = ({ song }: Props) => {
   const { setCurrentRadioSong } = useAudioPlayerStore();
   return (
-    <div
-      onClick={() => setCurrentRadioSong(song)}
-      className="rounded cursor-pointer w-auto md:w-[350px] flex-col h-auto overflow-hidden flex md:flex-row shadow-lg m-4 text-white backdrop-blur-xl bg-white/2 border border-slate-500/50"
-    >
+    <div className="rounded-md  w-auto md:w-[350px] flex-col relative h-auto overflow-hidden flex md:flex-row shadow-lg m-4 text-white bg-zinc-900 border border-slate-500/50">
       <img
         src={song.coverUrl}
         alt={song.title}
-        className="object-cover rounded-t-lg h-[150px] md:rounded-none md:rounded-l-lg"
+        onClick={() => setCurrentRadioSong(song)}
+        className="object-cover cursor-pointer rounded-t-lg h-[150px] md:rounded-none md:rounded-l-lg"
       />
       <div className="px-6 py-4 flex flex-col justify-center">
         <div className="font-bold text-base mb-2">
@@ -32,7 +30,7 @@ const SongCard = ({ song }: Props) => {
           className="rounded-full text-slate-400 p-4 text-sm"
           onClick={() => downloadFile(song.songUrl, song.title)}
         >
-          <Download size='20px' />
+          <Download size="20px" />
         </button>
       </div>
     </div>
