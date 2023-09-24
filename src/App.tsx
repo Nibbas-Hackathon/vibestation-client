@@ -24,7 +24,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/radio" element={<RadioPage />} />
           </Routes>
-          <div className="flex justify-between md:hidden p-2">
+          <div className="flex justify-between md:hidden p-4">
             <button onClick={handleSidebarOpen}>
               {!sidebarOpen && (
                 <PanelLeftOpen className="text-white" size="32px" />
