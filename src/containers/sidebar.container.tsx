@@ -9,6 +9,7 @@ import { XCircle } from "lucide-react";
 import { Switch } from "../components/ui/switch";
 import { useAudioPlayerStore } from "../store";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 type SidebarProps = {
   sidebarOpen: boolean;
@@ -36,8 +37,8 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
           <h1 className="text-2xl">Vibestation.ai</h1>
         </div>
         <div className="flex flex-col gap-2">
-          <a href="/">Home</a>
-          <a href="/radio">Radio</a>
+          <Link to="/">Home</Link>
+          <Link to="/radio">Radio</Link>
         </div>
       </div>
       <div className="flex flex-col gap-2">
