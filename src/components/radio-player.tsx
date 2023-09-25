@@ -104,7 +104,7 @@ const RadioPlayer = () => {
     }
   };
   return (
-    <div className="fixed bottom-0 border-t flex w-full justify-center  text-whit items-center border-slate-600 bg-black p-3">
+    <div className="fixed bottom-0 border-t flex w-full justify-center items-center border-slate-600 bg-black p-3">
       <img
         src={
           currentRadioSong?.coverUrl
@@ -114,7 +114,7 @@ const RadioPlayer = () => {
         className="object-cover rounded-md p-1 h-[75px]"
         alt="ai_album_cover"
       />
-      <div className="flex items-center w-full p-2 gap-2">
+      <div className="flex items-center w-full md:w-1/2 p-2 gap-2">
         <button
           onClick={handlePlayPause}
           className="rounded-full hover:bg-indigo-500/50 p-4 text-white"
