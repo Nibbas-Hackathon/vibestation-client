@@ -81,7 +81,7 @@ const RadioPlayer = () => {
         if (wavesurfer.current) {
           wavesurfer.current.stop();
           setPlay(false);
-          setTimeout(() => fetchSong(), 2000);
+          fetchSong()
         }
       });
 

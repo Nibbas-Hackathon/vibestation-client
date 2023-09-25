@@ -11,14 +11,14 @@ const RadioPage = () => {
 
   return (
     <section className="relative w-full">
-      <div className="flex  md:flex-col mb-[150px] md:flex-1 relative p-2 justify-center items-center">
-        <div className="w-full h-screen gap-2 overflow-y-scroll md:flex-col justify-center items-center  rounded-md p-4 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
+      <div className="flex  md:flex-col mb-[100px] md:flex-1 relative p-2 justify-center items-center">
+        <div className="w-full h-3/5 gap-2 overflow-y-scroll md:flex-col justify-center items-center  rounded-md p-4 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50">
           <div className="px-5 gap-4 my-4 justify-center flex flex-col">
             <h1 className="text-3xl">📻 Vibe Radio</h1>
             <small>Find all the user generated songs here✨</small>
             <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
           </div>
-          <div className="grid grid-rows-1  md:grid-rows-6 md:grid-flow-col">
+          <div className="grid grid-cols-4">
             {isLoading && (
               <div className="h-screen mx-auto justify-center items-center">
                 <span className="loader"></span>
