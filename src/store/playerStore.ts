@@ -20,7 +20,7 @@ interface AudioPlayerState {
 const initialSong: MusicRecord = {
   songUrl: "https://www.mfiles.co.uk/mp3-downloads/gs-cd-track2.mp3",
   coverUrl:
-    "https://pbxt.replicate.delivery/5SlkISV9wqIJCNFr9taaRB3sWqULUrRx9aosfL9ofrmuo4lRA/out-0.png",
+    "https://pbxt.replicate.delivery/L2ZlRmCk006TFpZnordsfJPJJ98yS42CrShfDtGnxLfPtXPjA/out-0.png",
   title: "Eclipse",
   creator: "Echelon",
 };
