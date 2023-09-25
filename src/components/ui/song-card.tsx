@@ -10,7 +10,7 @@ type Props = {
 const SongCard = ({ song }: Props) => {
   const { setCurrentRadioSong } = useAudioPlayerStore();
   return (
-    <div className="rounded-md  w-auto md:w-[350px] flex-col relative h-auto overflow-hidden flex md:flex-row shadow-lg m-4 text-white bg-zinc-900 border border-slate-500/50">
+    <div className="rounded-md  w-auto md:w-[350px] flex-col relative h-[150px] overflow-hidden flex md:flex-row shadow-lg m-4 text-white bg-zinc-900 border border-slate-500/50">
       <img
         src={song.coverUrl}
         alt={song.title}
@@ -18,12 +18,12 @@ const SongCard = ({ song }: Props) => {
         className="object-cover cursor-pointer rounded-t-lg h-[150px] md:rounded-none md:rounded-l-lg"
       />
       <div className="px-6 py-4 flex flex-col justify-center">
-        <div className="font-bold text-base mb-2">
+        <div className="font-medium text-sm mb-2">
           {song.title.length > 50
             ? `${truncateText(song.title, 50)}`
             : song.title}
         </div>
-        <p className="text-gray-400 text-sm">Echelon</p>
+        <p className="text-gray-400 text-xs">Echelon</p>
       </div>
       <div className="absolute bottom-0 right-0">
         <button

@@ -18,7 +18,7 @@ const RadioPage = () => {
             <small>Find all the user generated songs here✨</small>
             <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
           </div>
-          <div className="grid grid-rows-1  md:grid-rows-4 md:grid-flow-col">
+          <div className="grid grid-rows-1  md:grid-rows-6 md:grid-flow-col">
             {isLoading && (
               <div className="h-screen mx-auto justify-center items-center">
                 <span className="loader"></span>
