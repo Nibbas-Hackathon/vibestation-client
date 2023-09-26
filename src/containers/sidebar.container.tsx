@@ -17,8 +17,6 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
-  const { setIsAutoPlay, isAutoPlay } = useAudioPlayerStore();
-
   return (
     <div
       className={`z-10 text-white ${
@@ -42,14 +40,6 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-5">
-          <small>Autoplay:</small>
-          <Switch
-            checked={isAutoPlay}
-            onCheckedChange={(value) => setIsAutoPlay(value)}
-          />
-        </div>
-
         <p className="font-normal text-sm">
           entry for: <br />
           <a

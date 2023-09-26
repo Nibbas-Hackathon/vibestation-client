@@ -25,26 +25,17 @@ const initialSong: MusicRecord = {
   creator: "Echelon",
 };
 
-export const useAudioPlayerStore = create<AudioPlayerState>()(
-  persist(
-    (set) => ({
-      isAutoPlay: false,
-      setIsAutoPlay: (value: boolean) => {
-        set({ isAutoPlay: value });
-      },
-      currentSong: initialSong,
-      setCurrentSong: (value: MusicRecord) => {
-        set({ currentSong: value });
-      },
-      currentRadioSong: null,
-      setCurrentRadioSong: (value: MusicRecord) => {
-        set({ currentRadioSong: value });
-      },
-    }),
-    {
-      name: "player-store",
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ isAutoPlay: state.isAutoPlay }),
-    }
-  )
-);
+export const useAudioPlayerStore = create<AudioPlayerState>()((set) => ({
+  isAutoPlay: false,
+  setIsAutoPlay: (value: boolean) => {
+    set({ isAutoPlay: value });
+  },
+  currentSong: initialSong,
+  setCurrentSong: (value: MusicRecord) => {
+    set({ currentSong: value });
+  },
+  currentRadioSong: null,
+  setCurrentRadioSong: (value: MusicRecord) => {
+    set({ currentRadioSong: value });
+  },
+}));

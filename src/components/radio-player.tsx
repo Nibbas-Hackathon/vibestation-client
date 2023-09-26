@@ -3,7 +3,6 @@ import { MusicRecord, useAudioPlayerStore } from "../store/playerStore";
 import Waveform from "./ui/waveform";
 import WaveSurfer from "wavesurfer.js";
 import { Download, Pause, Play, Volume2 } from "lucide-react";
-import { axiosInstance } from "../lib/axios-instance";
 import { downloadFile } from "../lib/utils";
 import { fetchSong } from "../lib/fetchers";
 import { useQuery } from "react-query";
@@ -30,10 +29,10 @@ const RadioPlayer = () => {
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.2);
-  const { currentRadioSong, setCurrentRadioSong, isAutoPlay } =
+  const { currentRadioSong, setCurrentRadioSong, isAutoPlay, setIsAutoPlay } =
     useAudioPlayerStore();
 
-  const { data: song, isLoading, isError } = useQuery("radio_song", fetchSong, {
+  useQuery("radio_song", fetchSong, {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -53,12 +52,11 @@ const RadioPlayer = () => {
 
       wavesurfer.current.on("ready", function () {
         if (wavesurfer.current) {
+          wavesurfer.current.setVolume(volume);
+          setVolume(volume);
           if (isAutoPlay) {
             wavesurfer.current.play();
             setPlay(true);
-          } else {
-            wavesurfer.current.stop();
-            setPlay(false);
           }
         }
       });
@@ -68,6 +66,7 @@ const RadioPlayer = () => {
           setTimeout(async () => {
             const song = await fetchSong();
             setCurrentRadioSong(song);
+            setIsAutoPlay(true);
           }, 1000);
           wavesurfer.current.stop();
           setPlay(false);

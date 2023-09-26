@@ -42,14 +42,6 @@ export default function HomePlayer({ song }: WaveformProps) {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
-
-        if (isAutoPlay) {
-          wavesurfer.current.play();
-          setPlay(true);
-        } else {
-          wavesurfer.current.stop();
-          setPlay(false);
-        }
       }
     });
 
