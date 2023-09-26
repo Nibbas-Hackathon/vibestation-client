@@ -27,7 +27,7 @@ const RadioPlayer = () => {
   const waveformRef = useRef(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlay] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.2);
   const { currentRadioSong, setCurrentRadioSong, isAutoPlay } =
     useAudioPlayerStore();
 
