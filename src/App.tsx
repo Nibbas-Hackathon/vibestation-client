@@ -19,7 +19,7 @@ function App() {
           sidebarOpen={sidebarOpen}
           handleClose={() => setSideBarOpen(false)}
         />
-        <section className="flex flex-col-reverse w-full sm:min-h-screen md:max-h-screen md:flex-row">
+        <section className="flex flex-col-reverse w-full min-h-screen md:max-h-screen md:flex-row">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/radio" element={<RadioPage />} />
