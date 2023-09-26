@@ -5,6 +5,8 @@ import WaveSurfer from "wavesurfer.js";
 import { Download, Pause, Play, Volume2 } from "lucide-react";
 import { axiosInstance } from "../lib/axios-instance";
 import { downloadFile } from "../lib/utils";
+import { fetchSong } from "../lib/fetchers";
+import { useQuery } from "react-query";
 
 type Props = {
   song: MusicRecord;
@@ -31,30 +33,14 @@ const RadioPlayer = () => {
   const { currentRadioSong, setCurrentRadioSong, isAutoPlay } =
     useAudioPlayerStore();
 
-  const fetchSong = async () => {
-    try {
-      const response = await axiosInstance.get("/api/data/random_song", {
-        params: {
-          prompt,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { random_song } = response.data;
-      const song = {
-        ...random_song[0],
-        creator: "Echelon",
-      };
-      setCurrentRadioSong(song);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSong();
-  }, []);
+  const { data: song, isLoading, isError } = useQuery("radio_song", fetchSong, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setCurrentRadioSong(data);
+    },
+  });
 
   useEffect(() => {
     if (currentRadioSong) {
@@ -79,9 +65,12 @@ const RadioPlayer = () => {
 
       wavesurfer.current.on("finish", function () {
         if (wavesurfer.current) {
+          setTimeout(async () => {
+            const song = await fetchSong();
+            setCurrentRadioSong(song);
+          }, 1000);
           wavesurfer.current.stop();
           setPlay(false);
-          fetchSong()
         }
       });
 

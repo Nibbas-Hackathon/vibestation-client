@@ -10,7 +10,7 @@ type Props = {
 const SongCard = ({ song }: Props) => {
   const { setCurrentRadioSong } = useAudioPlayerStore();
   return (
-    <div className="rounded-md  w-auto h-auto    md:w-[350px] flex-col relative md:h-[150px] overflow-hidden flex md:flex-row shadow-lg m-4 text-white bg-zinc-900 border border-slate-500/50">
+    <div className="rounded-md  w-auto h-auto  flex-col relative xl:h-[150px] xl:w-[350px] overflow-hidden flex xl:flex-row shadow-lg m-4 text-white bg-zinc-900 border border-slate-500/50">
       <img
         src={song.coverUrl}
         alt={song.title}

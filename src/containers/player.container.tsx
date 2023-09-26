@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomePlayer from "../components/home-player";
 import { useAudioPlayerStore } from "../store";
+import { fetchSong } from "../lib/fetchers";
+import { useQuery } from "react-query";
 
 const PlayerContainer = () => {
-  const { currentSong } = useAudioPlayerStore();
+  const { currentSong, setCurrentSong } = useAudioPlayerStore();
+
+  useQuery("player_song", fetchSong, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setCurrentSong(data);
+    },
+  });
 
   return (
     <div className="flex flex-row  md:flex-col h-auto p-2   md:flex-1 md:h-screen relative">

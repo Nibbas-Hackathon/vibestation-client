@@ -15,7 +15,10 @@ const RadioPage = () => {
         <div className="w-full h-screen gap-2 overflow-y-scroll md:flex-col justify-center items-center rounded-md p-4 text-white backdrop-blur-2xl bg-white/10 border border-slate-500/50 md:py-3rem">
           <div className="px-5 gap-4 my-4 justify-center flex flex-col">
             <h1 className="text-3xl">📻 Vibe Radio</h1>
-            <small>Find all the user generated songs here✨</small>
+            <div className="flex gap-2 items-center">
+              <small>Find all the user generated songs here✨ </small> - 
+              <small>{data?.length} Unique Vibes Generated</small> 
+            </div>
             <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3">
