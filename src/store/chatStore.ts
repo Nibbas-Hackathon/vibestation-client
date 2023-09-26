@@ -22,7 +22,7 @@ const sampleConversation = [
     id: uuidv4(),
     role: "assistant",
     type: "text",
-    text: "Hi!! Welcome to Vibestation! Provide a music prompt to get a vibe",
+    text: "Hi!! Welcome to Vibestation!🎧. Provide a musical prompt or your current feeling. Want to generate vibes using your expressions? try Emote Mode! 📷",
   },
 ];
 
