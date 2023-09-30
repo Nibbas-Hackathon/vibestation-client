@@ -102,21 +102,26 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
             <HoverCardContent className="border-slate-500/50 w-60 mx-2 backdrop-blur-sm bg-indigo-500/50 back">
               <div className="flex flex-col gap-2 text-white justify-between">
                 <a
-                  href="https://peerlist.io/shank"
+                  href="https://www.tensorflow.org/tutorials/images/classification"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Tensorflow Image Model
                 </a>
                 <a
-                  href="https://peerlist.io/shank"
+                  href="https://platform.openai.com/docs/guides/gpt"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   GPT-3.5 Chat Completions
                 </a>
-                <a href="https://replicate.com/stability-ai/sdxl">
+                <a href="https://replicate.com/stability-ai/sdxl"
+                  target="_blank">
                   stability-ai / sdxl
+                </a>
+                <a href="https://replicate.com/meta/musicgen"
+                  target="_blank">
+                  meta / musicgen
                 </a>
               </div>
             </HoverCardContent>
