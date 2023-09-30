@@ -74,8 +74,8 @@ const Upload = ({ isGenerating, setIsGenerating }: Props) => {
         onClick={() => {
           setIsModalOpen(!isModalOpen);
         }}
-        disabled={isGenerating}
-        className="p-2 rounded-md bg-indigo-500 text-white"
+        disabled={true}
+        className="p-2 rounded-md text-slate-500"
       >
         <Camera />
       </DialogTrigger>
