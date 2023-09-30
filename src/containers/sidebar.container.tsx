@@ -102,11 +102,11 @@ const Sidebar = ({ sidebarOpen, handleClose }: SidebarProps) => {
             <HoverCardContent className="border-slate-500/50 w-60 mx-2 backdrop-blur-sm bg-indigo-500/50 back">
               <div className="flex flex-col gap-2 text-white justify-between">
                 <a
-                  href="https://www.tensorflow.org/tutorials/images/classification"
+                  href="https://github.com/serengil/deepface"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Tensorflow Image Model
+                  serengil/deepface
                 </a>
                 <a
                   href="https://platform.openai.com/docs/guides/gpt"
